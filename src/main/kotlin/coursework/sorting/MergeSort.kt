@@ -1,53 +1,54 @@
 package coursework.sorting
+class MergeSort {
 
-import coursework.database.LECTURER
-import kotlin.math.max
+    // End Condition for splitting array: Array size too small (1)
+    fun mergeSort(list: MutableList<String>): MutableList<String> {
 
-object MergeSort {
+        println("List before sorting ==> $list")
 
-    var tick = 0
-    fun sort(array: ArrayList<LECTURER>): Pair<ArrayList<LECTURER>, Int> {
-        tick = 0
-//        println("${leftSorted.size},${rightSorted.size},${res.size} ")
-        println("RAFA size of array ${array.size}")
-
-        if (array.size <= 1)
-            return Pair(array,tick)
-        else
-        {
-            val h = array.size / 2
-            val (leftSorted,ln) = sort(array.slice(1 until h) as ArrayList<LECTURER>)
-            val (rightSorted,rn) = sort(array.slice(h until array.size) as ArrayList<LECTURER>)
-            val res = ArrayList<LECTURER>(array.size)
-            var (l,r,t) = Triple(0,0,0)
-            tick += ln + rn
-            // not B : l == N nad r == N
-            while ((l < leftSorted.size) || (r < rightSorted.size))   {
-                assert(t < res.size)
-                tick+=1
-                if (l == leftSorted.size) {
-                    res[t] == rightSorted[r]
-                    r+=1
-                }
-                else if (r == rightSorted.size) {
-                    res[t] == leftSorted[l]
-                    l+=1
-                }
-                else {
-                    if (leftSorted[l].AGE < rightSorted[r].AGE ) {
-                        res[t] == leftSorted[l]
-                        l+=1
-                    }
-                    else {
-                        res[t] == rightSorted[r]
-                        r+=1
-                    }
-                }
-                t+= 1
-            }
-
-            return Pair(array, tick)
+        if (list.size <= 1) { //If the list size is <=1 stop splitting and return list
+            return list
         }
+
+        val mid = list.size / 2  //Split list
+        val left = list.subList(0, mid) //Define array slice: position 0 to middle
+        val right = list.subList(mid, list.size) // Define array slice: mid to the end of the array
+
+
+        return merge(mergeSort(left), mergeSort(right)) as MutableList<String> //Return the current sorted left and right lists
     }
 
+
+    //Function for sorting then merging two halves.
+    private fun merge(
+        left: MutableList<String>, right: MutableList<String>
+    ): List<String> {
+        var idxLeft = 0  // initialise index positions
+        var idxRight = 0 // initialise index positions
+        val newList: MutableList<String> = mutableListOf() //initialise mutable list
+
+        while (idxLeft < left.count() && idxRight < right.count()) { //
+            if (left[idxLeft] <= right[idxRight]) { //
+                newList.add(left[idxLeft])//
+                idxLeft++ // increment
+            } else {
+                newList.add(right[idxRight])
+                idxRight++  //increment
+            }
+        }
+
+        while (idxLeft < left.size) {
+            newList.add(left[idxLeft])
+            idxLeft++
+        }
+
+        while (idxRight < right.size) {
+            newList.add(right[idxRight])
+            idxRight++
+        }
+        println("List merge after sorting ==> $newList")
+        println(newList.size)
+
+        return newList
+    }
 }

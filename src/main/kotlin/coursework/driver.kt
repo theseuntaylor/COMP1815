@@ -1,26 +1,29 @@
 package coursework
 
-import coursework.database.LECTURER
+import coursework.database.BOOKS
 import coursework.database.Database
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.asJdbcDriver
 import com.zaxxer.hikari.HikariDataSource
-import coursework.database.FACULTY
+import coursework.database.AUTHORS
+import coursework.model.Book
 
 
 object DDBB {
-    val lecturers = mutableListOf<LECTURER>()
+    val lecturers = mutableListOf<BOOKS>()
 
-    fun getLecturers(path: String = "src/main/resources/lecturer.sqlite"): List<LECTURER> {
+    fun getLecturers(path: String = "src/main/resources/lecturer.sqlite"): List<BOOKS> {
         val database = Database(getSqlDriver(path))
         val sqlQueries = database.cWQueries
-        return sqlQueries.allLecturers().executeAsList()
+        return sqlQueries.allBooks().executeAsList()
     }
 
-    fun add_lecturer(name: String,age:Long,status:String,gender:String) {
+    fun addBook(book: Book) {
         val database = Database(getSqlDriver("src/main/resources/lecturer.sqlite"))
         val sqlQueries = database.cWQueries
-        sqlQueries.insertLecturer(name,age,status,gender)
+        sqlQueries.insertBook(
+            book.title, book.author.toString(), book.status, book.subject, book.yearOfPublication, book.publisher
+        )
     }
 
 
@@ -36,12 +39,13 @@ object DDBB {
     fun addFaculty(name: String) {
         val database = Database(getSqlDriver("src/main/resources/lecturer.sqlite"))
         val sqlQueries = database.cWQueries
-        sqlQueries.insertFaculty(name)
+        sqlQueries.insertAuthor(name)
     }
-    fun getFaculties(path: String = "src/main/resources/lecturer.sqlite"): List<FACULTY> {
+
+    fun getFaculties(path: String = "src/main/resources/lecturer.sqlite"): List<AUTHORS> {
         val database = Database(getSqlDriver(path))
         val facultyQueries = database.cWQueries
-        return facultyQueries.allFaculties().executeAsList()
+        return facultyQueries.allAuthors().executeAsList()
     }
 
 }
