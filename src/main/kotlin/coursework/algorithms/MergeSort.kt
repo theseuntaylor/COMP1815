@@ -33,7 +33,7 @@ class MergeSort {
 
     //Function for sorting then merging two halves.
     private fun merge(
-        left: MutableList<BOOKS>, right: MutableList<BOOKS>, sortType: Int
+        left: MutableList<BOOKS>, right: MutableList<BOOKS>, sortType: Int,
     ): Pair<MutableList<BOOKS>, Int> {
         var idxLeft = 0  // initialise index positions
         var idxRight = 0 // initialise index positions
@@ -53,8 +53,7 @@ class MergeSort {
                     idxRight++  //increment
                 }
             } else {
-                if (left[idxLeft].YEAR.toString().lowercase(Locale.getDefault()) <= right[idxRight].YEAR.toString()
-                        .lowercase(Locale.getDefault())
+                if ((returnYearAsInt(left[idxLeft].YEAR)) <= (returnYearAsInt(right[idxRight].YEAR))
                 ) { //
                     newList.add(left[idxLeft])//
                     idxLeft++ // index increment
@@ -83,6 +82,13 @@ class MergeSort {
         return Pair(newList, totalTicks)
 
     }
+}
+
+fun returnYearAsInt(year: String?): Int {
+
+    val re = Regex("[a-z]+")
+
+    return if (year.isNullOrEmpty() || year.matches(re)) 0 else year.toInt()
 }
 
 // Algorithm Citation: https://chercher.tech/kotlin/bubble-sort-kotlin
