@@ -83,8 +83,20 @@ public class BookDatabaseGUI extends JFrame {
         managePublishersButton.addActionListener(e -> PublishersGUI.main(null));
         manageAuthorsButton.addActionListener(e -> AuthorsGUI.main(null));
 
-        searchBookButton.addActionListener(e -> doBubbleSort(sortType()));
-        mergeSortButton.addActionListener(e -> doMergeSort(sortType()));
+        searchBookButton.addActionListener(e -> {
+            if (sortType() == -1) {
+                JOptionPane.showMessageDialog(null, "Please ensure you have selected a sort type!");
+            } else {
+                doBubbleSort(sortType());
+            }
+        });
+        mergeSortButton.addActionListener(e -> {
+            if (sortType() == -1) {
+                JOptionPane.showMessageDialog(null, "Please ensure you have selected a sort type!");
+            } else {
+                doMergeSort(sortType());
+            }
+        });
 
     }
 
@@ -92,9 +104,9 @@ public class BookDatabaseGUI extends JFrame {
 
         if (sortByBookTitleRadioButton.isSelected()) {
             return 1;
-        } else {
+        } else if (sortByYearOfRadioButton.isSelected()) {
             return 2;
-        }
+        } else return -1;
     }
 
     public static void main(String[] args) {
@@ -129,7 +141,7 @@ public class BookDatabaseGUI extends JFrame {
 
     private void doMergeSort(int sortType) {
         MergeSort mergeSort = new MergeSort();
-        ArrayList<BOOKS> sortedList = new ArrayList<>(mergeSort.mergeSort((ArrayList<BOOKS>) databaseManager.getBooks(), sortType).getFirst());
+        ArrayList<BOOKS> sortedList = new ArrayList<>(mergeSort.mergeSort(databaseManager.getBooks(), sortType).getFirst());
         numberOfTicksJLabel.setText(String.valueOf(mergeSort.mergeSort(listOfBooksFromFile, sortType).getSecond()));
         ((DefaultTableModel) bookTable.getModel()).getDataVector().removeAllElements();
         showBooks(sortedList);
@@ -139,11 +151,7 @@ public class BookDatabaseGUI extends JFrame {
         int selectedRow = bookTable.getSelectedRow();
         String author = bookTable.getValueAt(selectedRow, 3).toString();
         List<String> authorNames = List.of(author.split(" "));
-        Book selectedBook = new Book(bookTable.getValueAt(selectedRow, 1).toString(),
-                new Author(authorNames.get(0), authorNames.get(1)), bookTable.getValueAt(selectedRow,
-                2).toString(), bookTable.getValueAt(selectedRow, 4).toString(),
-                bookTable.getValueAt(selectedRow, 5).toString(),
-                bookTable.getValueAt(selectedRow, 0).toString());
+        Book selectedBook = new Book(bookTable.getValueAt(selectedRow, 1).toString(), new Author(authorNames.get(0), authorNames.get(1)), bookTable.getValueAt(selectedRow, 2).toString(), bookTable.getValueAt(selectedRow, 4).toString(), bookTable.getValueAt(selectedRow, 5).toString(), bookTable.getValueAt(selectedRow, 0).toString());
 
         System.out.println("Type/Subject " + selectedBook.component6());
         System.out.println("Name " + selectedBook.component1());
@@ -173,14 +181,7 @@ public class BookDatabaseGUI extends JFrame {
         if (validFields()) {
             JOptionPane.showMessageDialog(null, "Please ensure all fields are correctly filled!");
         } else {
-            Book newBook = new Book(
-                    textFieldBookTitle.getText(),
-                    new Author("No", "Book"),
-                    textFieldStatus.getText(),
-                    textFieldYearOfPublication.getText(),
-                    "No Publisher",
-                    textFieldSubject.getText()
-            );
+            Book newBook = new Book(textFieldBookTitle.getText(), new Author("No", "Book"), textFieldStatus.getText(), textFieldYearOfPublication.getText(), "No Publisher", textFieldSubject.getText());
             databaseManager.addBook(newBook);
         }
         ((DefaultTableModel) bookTable.getModel()).getDataVector().removeAllElements();
@@ -188,10 +189,7 @@ public class BookDatabaseGUI extends JFrame {
     }
 
     private boolean validFields() {
-        return textFieldBookTitle.getText().isEmpty() ||
-                textFieldStatus.getText().isEmpty() ||
-                textFieldYearOfPublication.getText().isEmpty() ||
-                textFieldSubject.getText().isEmpty();
+        return textFieldBookTitle.getText().isEmpty() || textFieldStatus.getText().isEmpty() || textFieldYearOfPublication.getText().isEmpty() || textFieldSubject.getText().isEmpty();
     }
 
 
