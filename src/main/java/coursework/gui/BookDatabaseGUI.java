@@ -2,6 +2,7 @@ package coursework.gui;
 
 import coursework.DDBB;
 import coursework.algorithms.BubbleSort;
+import coursework.algorithms.MergeSort;
 import coursework.database.AUTHORS;
 import coursework.database.BOOKS;
 import coursework.database.PUBLISHERS;
@@ -10,6 +11,8 @@ import coursework.model.Book;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -81,6 +84,8 @@ public class BookDatabaseGUI extends JFrame {
         manageAuthorsButton.addActionListener(e -> AuthorsGUI.main(null));
 
         searchBookButton.addActionListener(e -> doBubbleSort(sortType()));
+        mergeSortButton.addActionListener(e -> doMergeSort(sortType()));
+
     }
 
     private int sortType() {
@@ -118,6 +123,14 @@ public class BookDatabaseGUI extends JFrame {
         BubbleSort bubbleSort = new BubbleSort();
         ArrayList<BOOKS> sortedList = new ArrayList<>(bubbleSort.sortByBubbleSort((ArrayList<BOOKS>) databaseManager.getBooks(), sortType).getFirst());
         numberOfTicksJLabel.setText(String.valueOf(bubbleSort.sortByBubbleSort(listOfBooksFromFile, sortType).getSecond()));
+        ((DefaultTableModel) bookTable.getModel()).getDataVector().removeAllElements();
+        showBooks(sortedList);
+    }
+
+    private void doMergeSort(int sortType) {
+        MergeSort mergeSort = new MergeSort();
+        ArrayList<BOOKS> sortedList = new ArrayList<>(mergeSort.mergeSort((ArrayList<BOOKS>) databaseManager.getBooks(), sortType).getFirst());
+        numberOfTicksJLabel.setText(String.valueOf(mergeSort.mergeSort(listOfBooksFromFile, sortType).getSecond()));
         ((DefaultTableModel) bookTable.getModel()).getDataVector().removeAllElements();
         showBooks(sortedList);
     }
