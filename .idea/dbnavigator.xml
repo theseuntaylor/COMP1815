@@ -28,12 +28,22 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="10e9c974-66d0-4806-a9f0-03661c9a75b9">
-      <console name="book_cw" type="STANDARD" schema="" session="Main" />
+    <connection id="c6dccdb3-f619-4ab9-abf5-2f976f642fad">
+      <console name="Connection" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="c6dccdb3-f619-4ab9-abf5-2f976f642fad" object-ref="schemas/main/tables/AUTHORS" />
+    </open-files>
+  </component>
+  <component name="DBNavigator.Project.DatabaseSessionManager">
+    <connection id="c6dccdb3-f619-4ab9-abf5-2f976f642fad" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="c6dccdb3-f619-4ab9-abf5-2f976f642fad" dataset="main.PUBLISHERS" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="c6dccdb3-f619-4ab9-abf5-2f976f642fad" dataset="main.BOOKS" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="c6dccdb3-f619-4ab9-abf5-2f976f642fad" dataset="main.AUTHORS" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -42,8 +52,7 @@
     <retain-sticky-names value="false" />
   </component>
   <component name="DBNavigator.Project.FileConnectionMappingManager">
-    <mapping file-url="file://$PROJECT_DIR$/src/main/sql/pp.sql" connection-id="10e9c974-66d0-4806-a9f0-03661c9a75b9" session-id="MAIN" current-schema="main" />
-    <mapping file-url="file://$PROJECT_DIR$/src/main/sql/dbschema.sql" connection-id="10e9c974-66d0-4806-a9f0-03661c9a75b9" session-id="MAIN" current-schema="main" />
+    <mapping file-url="file://$PROJECT_DIR$/src/main/sql/dbschema.sql" connection-id="c6dccdb3-f619-4ab9-abf5-2f976f642fad" session-id="MAIN" current-schema="main" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />
@@ -68,9 +77,9 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="10e9c974-66d0-4806-a9f0-03661c9a75b9" active="true" signed="true">
+      <connection id="c6dccdb3-f619-4ab9-abf5-2f976f642fad" active="true" signed="true">
         <database>
-          <name value="book_cw" />
+          <name value="Connection" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
@@ -83,7 +92,7 @@
           <port value="" />
           <database value="" />
           <files>
-            <file path="C:\Users\sg8999l\Downloads\COMP1815\src\main\resources\books.sqlite" schema="main" />
+            <file path="$PROJECT_DIR$/src/main/resources/books.sqlite" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />

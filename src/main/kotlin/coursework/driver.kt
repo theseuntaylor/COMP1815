@@ -6,61 +6,86 @@ import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.asJdbcDriver
 import com.zaxxer.hikari.HikariDataSource
 import coursework.database.AUTHORS
+import coursework.database.PUBLISHERS
 import coursework.model.Book
-
+import coursework.model.Publisher
 
 object DDBB {
-    val lecturers = mutableListOf<BOOKS>()
 
-    fun getLecturers(path: String = "src/main/resources/lecturer.sqlite"): List<BOOKS> {
-        val database = Database(getSqlDriver(path))
+    private const val path = "src/main/resources/books.sqlite"
+    val lecturers = mutableListOf<BOOKS>()
+    private val database = Database(getSqlDriver())
+
+    fun getBooks(): List<BOOKS> {
         val sqlQueries = database.cWQueries
         return sqlQueries.allBooks().executeAsList()
     }
 
     fun addBook(book: Book) {
-        val database = Database(getSqlDriver("src/main/resources/lecturer.sqlite"))
         val sqlQueries = database.cWQueries
         sqlQueries.insertBook(
             book.title, book.author.toString(), book.status, book.subject, book.yearOfPublication, book.publisher
         )
     }
 
+    fun addPublisher(publisher: Publisher) {
+        val sqlQueries = database.cWQueries
+        sqlQueries.insertPublisher(
+            publisher.name
+        )
+    }
 
-    private fun getSqlDriver(path: String = "src/main/resources/lecturer.sqlite"): SqlDriver {
+    private fun getSqlDriver(): SqlDriver {
         val ds = HikariDataSource()
-        ds.jdbcUrl = "jdbc:sqlite:" + path
+        ds.jdbcUrl = "jdbc:sqlite:$path"
         ds.driverClassName = "org.sqlite.JDBC"
         ds.username = ""
         ds.password = ""
         return ds.asJdbcDriver()
     }
 
-    fun addFaculty(name: String) {
-        val database = Database(getSqlDriver("src/main/resources/lecturer.sqlite"))
+    fun addAuthor(name: String) {
         val sqlQueries = database.cWQueries
         sqlQueries.insertAuthor(name)
     }
 
-    fun getFaculties(path: String = "src/main/resources/lecturer.sqlite"): List<AUTHORS> {
-        val database = Database(getSqlDriver(path))
+    fun getAuthors(): List<AUTHORS> {
         val facultyQueries = database.cWQueries
         return facultyQueries.allAuthors().executeAsList()
     }
+
+    fun getPublishers(): List<PUBLISHERS> {
+        val facultyQueries = database.cWQueries
+        return facultyQueries.allPublishers().executeAsList()
+    }
+
+//    fun deleteBook(bookId: Int) {
+//        val sqlQuery = database.cWQueries
+//
+//        sqlQuery.deleteBook(bookId)
+//    }
 
 }
 
 // this is for testing.
 fun main() {
-    val lectures = DDBB.getLecturers()
-    for (lecture in lectures) {
+
+//        DDBB.addBook(
+//            Book(
+//                subject = "Fiction", title = "Vagabonds!", status = "Finished", author = Author(
+//                    firstName = "Eloghosa", lastName = "Osunde"
+//                ), yearOfPublication = "2022", publisher = "Penguin Random House"
+//            )
+//        )
+
+    val booksList = DDBB.getBooks()
+    for (lecture in booksList) {
         println(lecture)
     }
-    println(lectures)
 
-    val faculties = DDBB.getFaculties()
-    for (faculty in faculties) {
-        println(faculty)
-
-    }
+//    val authorsList = DDBB.getAuthors()
+//    for (author in authorsList) {
+//        println(author)
+//
+//    }
 }

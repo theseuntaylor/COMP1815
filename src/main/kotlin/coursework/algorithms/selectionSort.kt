@@ -1,3 +1,4 @@
+package coursework.algorithms;
 class selectionSort {
 
 

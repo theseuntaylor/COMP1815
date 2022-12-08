@@ -30,15 +30,6 @@ class DatabaseHelper {
         }
     }
 
-    // fun getBooks() = listOfBooks
-
-//    fun saveBook(book: Book): DefaultListModel<Book> {
-//
-//        listOfBooks.addElement(book)
-//
-//        return listOfBooks
-//    }
-
 }
 
 operator fun <T> List<T>.component6(): T = get(5)
